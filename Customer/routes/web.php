@@ -22,3 +22,4 @@ Route::get('/',[CustomerController::class,'showCustomer'])->name('index');
 Route::post('insertCustomer',[CustomerController::class,'insertCustomer'])->name('insertCustomer');
 Route::post('editCustomer',[CustomerController::class,'editCustomer'])->name('editCustomer');
 Route::post('updateCustomer',[CustomerController::class,'updateCustomer'])->name('updateCustomer');
+Route::get('deleteCustomer',[CustomerController::class,'deleteCustomer'])->name('deleteCustomer');

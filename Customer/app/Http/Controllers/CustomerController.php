@@ -46,4 +46,10 @@ class CustomerController extends Controller
 
             return redirect()->route('index');
     }
+
+    public function deleteCustomer(){
+        $id = $_GET['id'];
+        $res = Customer::where('id',$id)->delete();
+        return redirect()->route('index');
+    }
 }

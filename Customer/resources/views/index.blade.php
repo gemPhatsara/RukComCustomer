@@ -39,7 +39,10 @@
                     <td>
                         {{$item->firstname." ".$item->lastname}}
                     </td>
-                    <td><button type="button"  class="btn btn-warning editbtn" data-id="{{$item->id}}">แก้ไข</button></td>
+                    <td>
+                        <button type="button"  class="btn btn-warning editbtn" data-id="{{$item->id}}">แก้ไข</button>
+                        <button type="button"  class="btn btn-danger delbtn" data-id="{{$item->id}}">ลบ</button>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -49,7 +52,7 @@
 
     </div>
 </body>
-<div class="modal" tabindex="-1" role="dialog">
+<div class="modal" id="addModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -89,6 +92,29 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Del-->
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="">Delete Customer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5 id="">Are you sure?</h5>
+                <p>You won't be able to revert this!</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                <button type="button" class="btn btn-danger" id="delbtn">ลบ</button>
+            </div>
+        </div>
+        </div>
+    </div>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{{URL::asset('js/DataTables.min.js')}}"></script>
@@ -96,6 +122,7 @@
 
 <script>
     $( document ).ready(function() {
+        var idCustomer = ''
         $('#myTable').DataTable({
             "pageLength" : 15,
             "lengthMenu" :[15,30]
@@ -115,7 +142,7 @@
             $('form#form-customer').attr('action',"{{route('insertCustomer')}}")
             showModal();
         });
-        $('.editbtn').click(function(){
+        $("body").delegate(".editbtn","click",function(event){
             const id = $(this).attr('data-id')
             const url = "{{route('editCustomer')}}"
             $.ajax({
@@ -135,10 +162,19 @@
             })
             showModal();
         });
-        function showModal(){
+        $("body").delegate(".delbtn","click",function(event){
+            $('#delModal').modal('show')
+            idCustomer = $(this).attr('data-id')
+        })
+        $('#delbtn').click(function(){
+            const url = "{{route('deleteCustomer')}}?id="+idCustomer
+            window.location.replace(url)
+        })
 
-            $('.modal').modal('show')
+        function showModal(){
+            $('#addModal').modal('show')
         }
+
     });
 
 </script>
